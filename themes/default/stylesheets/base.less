@@ -3,6 +3,11 @@
 
 @monospace-fonts: 'Source Code Pro', Menlo, Monaco, Consolas, 'Courier New', monospace;
 
+body {
+  font-family: 'Helvetica';
+  line-height: 1.3rem;
+}
+
 code {
   background-color: lighten(#337ab7, 45%);
   color: #337ab7;
@@ -45,4 +50,48 @@ pre code {
   &:hover #full {
     display: block;
   }
+}
+
+
+
+
+
+
+
+dt:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+dd {
+  display: none;
+}
+
+table {
+  width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-collapse: collapse;
+  border: 1px solid #eee;
+}
+
+thead {
+  background: #eee;
+}
+
+
+th {
+  text-align: left;
+}
+
+tbody {
+  th {
+    font-weight: normal;
+    font-family: @monospace-fonts;
+  }
+}
+
+th, td {
+  padding: 0.5rem;
+  vertical-align: top;
 }
