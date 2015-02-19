@@ -33,6 +33,6 @@ class FilePage extends Template
   # Returns a {String} containing the rendered content.
   render: ->
     console.log("File: #{path.basename(@filePath, path.extname(@filePath))}")
-    @markdownify(fs.readFileSync(@filePath).toString())
+    @markdownify(@resolveReferences(fs.readFileSync(@filePath).toString()))
 
 module.exports = FilePage
