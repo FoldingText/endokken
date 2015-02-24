@@ -5,19 +5,16 @@
     %meta{'http-equiv': 'X-UA-Compatible', content: 'IE=edge'}
     %meta{name: 'viewport', content: 'width=device-width, initial-scale=1'}
     %title= @title
+    %link{rel: 'stylesheet', href: 'bootstrap.min.css', type: 'text/css'}
     %link{rel: 'stylesheet', href: 'base.css', type: 'text/css'}
   %body
     .container
       .row
-        .col-md-2.navigation
+        .col-md-3.navigation
           != @navigation
-        .col-md-10
+        .col-md-8
           .content
             != @content
-          .footer.text-center
-            %small
-              Generated on #{(new Date).toString()} by
-              %a{href: 'https://github.com/lee-dohm/endokken'} endokken v#{@version}
 
     %script{src: 'https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'}
     %script{src: 'bootstrap.min.js'}
