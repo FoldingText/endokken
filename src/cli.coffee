@@ -110,7 +110,15 @@ class Cli
     Resolver.setMetadata(@digestedMetadata)
     @getNavItems(@digestedMetadata)
     @renderClass(klass) for _, klass of @digestedMetadata.classes
+    @renderFile(file) for file in @docTutorials()
     @renderFile(file) for file in @docFiles()
+
+    readmePath = path.join(@docsDirectory(), 'README')
+    indexPath = path.join(@docsDirectory(), 'index.html')
+    fs.createReadStream(readmePath).pipe(fs.createWriteStream(indexPath));
+
+  docTutorials: ->
+    (path.join('./tutorials', file) for file in fs.readdirSync('./tutorials') when file.match(/\.md$/))
 
   docFiles: ->
     (file for file in fs.readdirSync('.') when file.match(/\.md$/))
@@ -120,6 +128,11 @@ class Cli
     items = (Template.render('nav-item', name: item, url: item) for item in navItems).join('\n')
     Template.render('navigation', title: 'Classes', items: items)
 
+  getNavTutorials: (pathName) ->
+    tutorials = (path.basename(file, path.extname(file)) for file in @docTutorials())
+    items = (Template.render('nav-item', name: file, url: file) for file in tutorials).join('\n')
+    Template.render('navigation', title: 'Tutorials', items: items)
+
   getNavFiles: (pathName) ->
     files = (path.basename(file, path.extname(file)) for file in @docFiles())
     items = (Template.render('nav-item', name: file, url: file) for file in files).join('\n')
@@ -127,8 +140,9 @@ class Cli
 
   getNavItems: (metadata) ->
     classes = @getNavClasses(metadata)
+    tutorials = @getNavTutorials('.')
     files = @getNavFiles('.')
-    @navigation = "#{classes}\n#{files}"
+    @navigation = "#{classes}\n#{tutorials}\n#{files}"
 
   render: (content, filePath) ->
     doc = Template.render 'layout',
