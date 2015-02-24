@@ -3,31 +3,26 @@
 
 @monospace-fonts: 'Source Code Pro', Menlo, Monaco, Consolas, 'Courier New', monospace;
 
-body {
-  font-family: 'Helvetica';
-  line-height: 1.3rem;
-}
-
 code {
-  background-color: lighten(#337ab7, 45%);
-  color: #337ab7;
+  //background-color: lighten(#337ab7, 45%);
+  //color: #337ab7;
   font-family: @monospace-fonts;
 }
 
 pre code {
-  .hljs;
+  //.hljs;
 }
 
 .footer {
-  border-top: 1px solid #bbb;
+  //border-top: 1px solid #bbb;
   margin-bottom: 1em;
 }
 
-.info-table {
-  th {
-    width: 30%;
-  }
-}
+//.info-table {
+//  th {
+//    width: 30%;
+//  }
+//}
 
 .navigation {
   margin-top: 2em;
@@ -52,19 +47,29 @@ pre code {
   }
 }
 
+//
+// Jesse Ads...
+//
 
+pre {
+  margin: 1rem 0;
+}
 
+dt.property-def, dt.method-def {
+  font-weight: normal;
+}
 
-
-
-
-dt:hover {
+dt.property-def:hover, dt.method-def:hover {
   cursor: pointer;
   text-decoration: underline;
 }
 
-dd {
+dd.property-def, dd.method-def {
   display: none;
+  margin: 1rem;
+  .table>thead>tr>th {
+    border-bottom: none;
+  }
 }
 
 table {
@@ -79,15 +84,10 @@ thead {
   background: #eee;
 }
 
-
-th {
-  text-align: left;
-}
-
 tbody {
   th {
     font-weight: normal;
-    font-family: @monospace-fonts;
+    font-family: monospace
   }
 }
 
