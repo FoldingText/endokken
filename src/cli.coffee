@@ -108,17 +108,23 @@ class Cli
     @buildDocsDirectory()
 
     Resolver.setMetadata(@digestedMetadata)
+
+    # Jesse
+    resolver = Resolver.getInstance()
+    resolver.add 'HTMLDocument', 'https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument'
+    resolver.add 'Disposable', 'https://atom.io/docs/api/latest/Disposable'
+
     @getNavItems(@digestedMetadata)
     @renderClass(klass) for _, klass of @digestedMetadata.classes
-    @renderFile(file) for file in @docTutorials()
+    @renderFile(file) for file in @docGuides()
     @renderFile(file) for file in @docFiles()
 
     readmePath = path.join(@docsDirectory(), 'README')
     indexPath = path.join(@docsDirectory(), 'index.html')
-    fs.createReadStream(readmePath).pipe(fs.createWriteStream(indexPath));
+    fs.createReadStream(readmePath).pipe(fs.createWriteStream(indexPath))
 
-  docTutorials: ->
-    (path.join('./tutorials', file) for file in fs.readdirSync('./tutorials') when file.match(/\.md$/))
+  docGuides: ->
+    (path.join('./guides', file) for file in fs.readdirSync('./guides') when file.match(/\.md$/))
 
   docFiles: ->
     (file for file in fs.readdirSync('.') when file.match(/\.md$/))
@@ -128,10 +134,10 @@ class Cli
     items = (Template.render('nav-item', name: item, url: item) for item in navItems).join('\n')
     Template.render('navigation', title: 'Classes', items: items)
 
-  getNavTutorials: (pathName) ->
-    tutorials = (path.basename(file, path.extname(file)) for file in @docTutorials())
-    items = (Template.render('nav-item', name: file, url: file) for file in tutorials).join('\n')
-    Template.render('navigation', title: 'Tutorials', items: items)
+  getNavGuides: (pathName) ->
+    guides = (path.basename(file, path.extname(file)) for file in @docGuides())
+    items = (Template.render('nav-item', name: file, url: file) for file in guides).join('\n')
+    Template.render('navigation', title: 'Guides', items: items)
 
   getNavFiles: (pathName) ->
     files = (path.basename(file, path.extname(file)) for file in @docFiles())
@@ -140,14 +146,20 @@ class Cli
 
   getNavItems: (metadata) ->
     classes = @getNavClasses(metadata)
-    tutorials = @getNavTutorials('.')
+    guides = @getNavGuides('.')
     files = @getNavFiles('.')
-    @navigation = "#{classes}\n#{tutorials}\n#{files}"
+    guides = Template.render(
+      'navigation',
+      title: 'Guides',
+      items: [Template.render('nav-item', name: 'Home', url: 'index.html')]
+    )
+
+    @navigation = "#{classes}"
 
   render: (content, filePath) ->
     doc = Template.render 'layout',
                           content: content
-                          title: 'Endokken'
+                          title: 'Birch Outline Editor'
                           navigation: @navigation
                           version: @version
     fs.writeFileSync(filePath, doc)

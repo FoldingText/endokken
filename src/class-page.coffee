@@ -111,7 +111,13 @@ class ClassPage extends Template
     Template.render('parameter-children', children: children)
 
   parameterChild: (child) ->
-    Template.render('parameter-child', child, markdown: ['description'], resolve: ['description'], noParagraph: ['description'])
+    Template.render(
+      'parameter-child',
+      child,
+      markdown: ['description'],
+      resolve: ['description'],
+      noParagraph: ['description']
+    )
 
   parameterRow: (parameter) ->
     parameter.description = @resolveReferences(parameter.description)
